@@ -1,30 +1,13 @@
-@props([
-    'title' => 'Ieškote darbuotojų?',
-    'description' => 'Pasiekite tūkstančius kandidatų. Įkelkite darbo skelbimą ir raskite geriausius specialistus.',
-])
-
-<section class="bg-gradient-to-br from-orange-500 to-amber-600">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div class="flex flex-col items-center justify-between gap-8 lg:flex-row">
-            <div class="max-w-xl text-center lg:text-left">
-                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                    {{ $title }}
-                </h2>
-                <p class="mt-4 text-lg text-orange-100">
-                    {{ $description }}
-                </p>
+<section class="border-t border-gray-200 bg-gray-50">
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-between gap-6 rounded-xl bg-red-600 px-8 py-8 sm:flex-row sm:py-6">
+            <div>
+                <h2 class="text-xl font-bold text-white sm:text-2xl">Ieškote darbuotojų?</h2>
+                <p class="mt-1 text-sm text-red-200">Pasiekite tūkstančius kandidatų. Skelbimo kaina nuo 29 €.</p>
             </div>
-            <div class="flex shrink-0 flex-col gap-3 sm:flex-row">
-                <x-button variant="white" size="lg">
-                    Įdėti skelbimą
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                </x-button>
-                <x-button variant="outline" size="lg" class="border-white/30! text-white! hover:bg-white/10!">
-                    Sužinoti daugiau
-                </x-button>
-            </div>
+            <a href="#" class="shrink-0 rounded bg-white px-6 py-3 text-sm font-bold text-red-600 transition hover:bg-red-50">
+                Įdėti darbo skelbimą
+            </a>
         </div>
     </div>
 </section>
