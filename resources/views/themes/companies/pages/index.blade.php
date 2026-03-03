@@ -1,57 +1,144 @@
-<x-layouts.app title="Įmonės - Įmonių katalogas Lietuvoje">
+<x-layouts.app title="Įmonės.lt - Įmonių katalogas Lietuvoje">
 
     <x-hero />
 
     <x-stats-section />
 
-    {{-- Features --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <x-section-heading subtitle="Patikimas būdas rasti paslaugų teikėjus ir verslo partnerius" :centered="true">
-            Kodėl rinktis mus?
-        </x-section-heading>
+    <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-6 lg:flex-row">
 
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <x-feature-card
-                icon="search"
-                title="Patogi paieška"
-                description="Raskite reikiamą įmonę pagal pavadinimą, kategoriją ar miestą per kelias sekundes."
-            />
-            <x-feature-card
-                icon="shield"
-                title="Patikrintos įmonės"
-                description="Visos registruotos įmonės yra patikrintos ir patvirtintos, kad galėtumėte rinktis drąsiai."
-            />
-            <x-feature-card
-                icon="star"
-                title="Tikri atsiliepimai"
-                description="Skaitykite tikrus klientų atsiliepimus ir reitingus, kad priimtumėte geriausią sprendimą."
-            />
+            {{-- Category Directory --}}
+            <div class="min-w-0 flex-1">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <x-category-card
+                        name="Auto"
+                        :count="5862"
+                        icon="car"
+                        :subcategories="['Lengvieji automobiliai', 'Krovininiai automobiliai', 'Motociklai, mopedai, dviračiai', 'Automobilių transporto paslaugos', 'Kitos paslaugos, prekyba']"
+                    />
+
+                    <x-category-card
+                        name="Statyba"
+                        :count="10547"
+                        icon="building"
+                        :subcategories="['Statybiniai įrankiai, technika, įrengimai', 'Projektavimas, architektai', 'Interjeras, baldai', 'Teritorijų ir pastatų priežiūra', 'Komunalinės paslaugos', 'Statybos darbai', 'Statybinės medžiagos, gaminiai']"
+                    />
+
+                    <x-category-card
+                        name="Grožis"
+                        :count="6586"
+                        icon="sparkles"
+                        :subcategories="['Galanterija', 'Aksesuarai, žaislynės, salonai, parduotuvės', 'Sporto klubai', 'Grožio paslaugos, prekės', 'Papuošalai', 'Kosmetika, parfumerija', 'Modelių agentūros, mokyklos']"
+                    />
+
+                    <x-category-card
+                        name="Sveikata"
+                        :count="2371"
+                        icon="heart"
+                        :subcategories="['Viešosios ir biudžetinės gydymo įstaigos', 'Higienos įstaigos', 'Privačios gydymo įstaigos', 'Farmacija', 'Medicinos įranga, instrumentai, priemonės', 'Kita su medicina susijusi veikla']"
+                    />
+
+                    <x-category-card
+                        name="Kitos paslaugos"
+                        :count="13478"
+                        icon="wrench"
+                        :subcategories="['Chemijos pramonė', 'Finansai, verslo konsultacijos, draudimas', 'Lengvoji pramonė', 'Maisto produktai, gėrimai', 'Švietimas, mokslas, kultūra ir menas', 'Žaliavos, kuras, energetika', 'Žiniasklaida, reklama, leidyba', 'Transportas, sandėliavimas, logistika', 'Nekilnojamas turtas, sauga']"
+                    />
+
+                    <x-category-card
+                        name="Technika info"
+                        :count="2336"
+                        icon="computer"
+                        :subcategories="['Kompiuteriai, įranga, internetas', 'Biuro technika, prekės', 'Buitinė technika, jos remontas', 'Garso, vaizdo technika, remontas', 'Ryšiai, ryšio priemonės, paštas', 'Radio dalys, buitinės technikos dalys', 'Automatika, automatizavimas, prekybos įranga']"
+                    />
+
+                    <x-category-card
+                        name="Poilsis ir laisvalaikis"
+                        :count="3596"
+                        icon="sun"
+                        :subcategories="['Apgyvendinimo paslaugos', 'Kelionių organizavimas, informavimas', 'Maitinimas', 'Kultūros, laisvalaikio ir kitos įstaigos', 'Transporto paslaugos', 'Kita su turizmu susijusi veikla']"
+                    />
+
+                    <x-category-card
+                        name="Agro"
+                        :count="845"
+                        icon="leaf"
+                        :subcategories="['Žemės ūkio technika', 'Žemės ūkio produktai', 'Veterinarija', 'Miškininkystė', 'Žuvininkystė, gyvulininkystė']"
+                    />
+                </div>
+            </div>
+
+            {{-- Sidebar --}}
+            <div class="hidden w-72 shrink-0 space-y-5 lg:block">
+                <div class="rounded-lg border border-gray-200 bg-white p-5">
+                    <h3 class="text-sm font-bold text-gray-900">Naujausi straipsniai</h3>
+                    <div class="mt-3 space-y-3">
+                        <a href="#" class="group block">
+                            <div class="text-sm font-medium text-gray-800 group-hover:text-indigo-600">Kaip pasirinkti tinkamą statybų įmonę?</div>
+                            <div class="mt-0.5 text-xs text-gray-400">2026-03-01</div>
+                        </a>
+                        <a href="#" class="group block">
+                            <div class="text-sm font-medium text-gray-800 group-hover:text-indigo-600">IT paslaugų rinka Lietuvoje auga</div>
+                            <div class="mt-0.5 text-xs text-gray-400">2026-02-27</div>
+                        </a>
+                        <a href="#" class="group block">
+                            <div class="text-sm font-medium text-gray-800 group-hover:text-indigo-600">Naujos grožio paslaugų tendencijos 2026</div>
+                            <div class="mt-0.5 text-xs text-gray-400">2026-02-24</div>
+                        </a>
+                    </div>
+                    <a href="#" class="mt-3 inline-block text-xs font-semibold text-indigo-600 hover:underline">Visi straipsniai →</a>
+                </div>
+
+                <div class="rounded-lg border border-indigo-200 bg-indigo-50 p-5">
+                    <h3 class="text-sm font-bold text-indigo-800">Nerandate savo įmonės?</h3>
+                    <p class="mt-2 text-xs leading-relaxed text-indigo-600">Registruokite nemokamai ir būkite matomi tūkstančiams potencialių klientų.</p>
+                    <a href="#" class="mt-3 inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-indigo-700">Registruoti įmonę</a>
+                </div>
+
+                <div class="rounded-lg border border-gray-200 bg-white p-5">
+                    <h3 class="text-sm font-bold text-gray-900">Populiarūs miestai</h3>
+                    <div class="mt-3 flex flex-wrap gap-1.5">
+                        @foreach(['Vilnius', 'Kaunas', 'Klaipėda', 'Šiauliai', 'Panevėžys', 'Alytus', 'Marijampolė', 'Telšiai'] as $city)
+                            <a href="#" class="rounded bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600 transition hover:bg-indigo-100 hover:text-indigo-700">{{ $city }}</a>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="rounded-lg border border-gray-200 bg-white p-5">
+                    <h3 class="text-sm font-bold text-gray-900">Naujai registruotos</h3>
+                    <div class="mt-3 space-y-2.5">
+                        @foreach([
+                            ['name' => 'UAB "Statybų Meistrai"', 'category' => 'Statyba'],
+                            ['name' => 'MB "Digital Solutions"', 'category' => 'IT paslaugos'],
+                            ['name' => 'IĮ "Grožio Namai"', 'category' => 'Grožis'],
+                            ['name' => 'UAB "TransLogistika"', 'category' => 'Transportas'],
+                        ] as $company)
+                            <a href="#" class="group block">
+                                <div class="text-sm font-medium text-gray-800 group-hover:text-indigo-600">{{ $company['name'] }}</div>
+                                <div class="text-xs text-gray-400">{{ $company['category'] }}</div>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     {{-- Popular Companies --}}
-    <section class="bg-gray-50/50 py-16 sm:py-20">
+    <section class="border-t border-gray-200 bg-white py-10">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between">
-                <x-section-heading subtitle="Aukščiausiai vertinamos ir populiariausios įmonės">
-                    Populiariausios įmonės
-                </x-section-heading>
-                <a href="#" class="mb-10 hidden items-center gap-1 text-sm font-semibold text-indigo-600 transition hover:text-indigo-700 sm:flex">
-                    Visos įmonės
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                </a>
+            <div class="mb-5 flex items-center justify-between">
+                <h2 class="text-lg font-bold text-gray-900">Populiariausios įmonės</h2>
+                <a href="#" class="text-sm font-medium text-indigo-600 hover:underline">Visos →</a>
             </div>
-
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <x-company-card
                     name="TechVision Solutions"
                     category="IT paslaugos"
-                    location="Vilnius, Šnipiškės"
+                    location="Vilnius"
                     :rating="4.8"
                     :reviewCount="127"
-                    description="Programinės įrangos kūrimas, IT konsultacijos ir skaitmeninės transformacijos sprendimai verslui."
                     :isVerified="true"
                     :isFeatured="true"
                     logo="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80"
@@ -59,55 +146,30 @@
                 <x-company-card
                     name="BuildPro Statyba"
                     category="Statybos"
-                    location="Kaunas, Centras"
+                    location="Kaunas"
                     :rating="4.6"
                     :reviewCount="89"
-                    description="Statybos ir renovacijos darbai, individualių namų projektavimas ir statyba nuo pamatų iki rakto."
                     :isVerified="true"
                     logo="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=200&q=80"
                 />
                 <x-company-card
-                    name="MedClinic Sveikatos Centras"
+                    name="MedClinic"
                     category="Medicina"
-                    location="Vilnius, Antakalnis"
+                    location="Vilnius"
                     :rating="4.9"
                     :reviewCount="215"
-                    description="Šeimos medicinos klinika teikianti diagnostikos, gydymo ir profilaktikos paslaugas."
                     :isVerified="true"
                     logo="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=200&q=80"
                 />
                 <x-company-card
                     name="Grožio Studija Aura"
                     category="Grožis"
-                    location="Klaipėda, Centras"
+                    location="Klaipėda"
                     :rating="4.7"
                     :reviewCount="163"
-                    description="Plaukų priežiūra, makiažas, nagų dizainas ir kitos grožio paslaugos profesionalų komandos."
                     logo="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=200&q=80"
                 />
             </div>
-
-            <div class="mt-8 text-center sm:hidden">
-                <x-button variant="outline" size="md" class="border-indigo-500! text-indigo-600! hover:bg-indigo-50! focus:ring-indigo-500!">Visos įmonės</x-button>
-            </div>
-        </div>
-    </section>
-
-    {{-- Categories --}}
-    <section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <x-section-heading subtitle="Raskite paslaugų teikėjus pagal veiklos sritį" :centered="true">
-            Kategorijos
-        </x-section-heading>
-
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <x-category-card name="Statybos" :count="420" icon="building" />
-            <x-category-card name="IT paslaugos" :count="385" icon="computer" />
-            <x-category-card name="Medicina" :count="290" icon="heart" />
-            <x-category-card name="Švietimas" :count="175" icon="academic" />
-            <x-category-card name="Transportas" :count="230" icon="truck" />
-            <x-category-card name="Maitinimas" :count="310" icon="cake" />
-            <x-category-card name="Grožis" :count="265" icon="sparkles" />
-            <x-category-card name="Teisė" :count="145" icon="scale" />
         </div>
     </section>
 
