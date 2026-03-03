@@ -1,30 +1,6 @@
-@props([
-    'title' => 'Turite ką parduoti?',
-    'description' => 'Įkelkite skelbimą nemokamai ir pasiekite tūkstančius pirkėjų visoje Lietuvoje.',
-])
-
-<section class="bg-gradient-to-br from-rose-500 to-pink-600">
-    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <div class="flex flex-col items-center justify-between gap-8 lg:flex-row">
-            <div class="max-w-xl text-center lg:text-left">
-                <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                    {{ $title }}
-                </h2>
-                <p class="mt-4 text-lg text-rose-100">
-                    {{ $description }}
-                </p>
-            </div>
-            <div class="flex shrink-0 flex-col gap-3 sm:flex-row">
-                <x-button variant="white" size="lg">
-                    Įdėti skelbimą
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                </x-button>
-                <x-button variant="outline" size="lg" class="border-white/30! text-white! hover:bg-white/10!">
-                    Sužinoti daugiau
-                </x-button>
-            </div>
-        </div>
+<section class="bg-green-600 py-3">
+    <div class="mx-auto flex max-w-7xl items-center justify-center gap-4 px-4 sm:px-6 lg:px-8">
+        <span class="text-sm text-white">Didžiausias naudotos <strong>elektronikos</strong> pasirinkimas! 20 tūkst. pasiūlymų</span>
+        <a href="#" class="shrink-0 rounded bg-white px-4 py-1.5 text-xs font-bold text-green-700 transition hover:bg-green-50">Rinktis</a>
     </div>
 </section>
