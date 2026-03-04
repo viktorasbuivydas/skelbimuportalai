@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap-index.xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>http://skelbimuportalai.test/sitemaps/listings/sitemap_1.xml</loc>
+    <lastmod>2026-03-04T07:19:39+00:00</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>http://skelbimuportalai.test/sitemaps/pages/sitemap_1.xml</loc>
+    <lastmod>2026-03-04T07:31:17+00:00</lastmod>
+  </sitemap>
+</sitemapindex>

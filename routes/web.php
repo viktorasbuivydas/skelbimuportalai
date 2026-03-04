@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListingController;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -48,3 +49,6 @@ foreach (config('theme.modules', []) as $slug => $module) {
         return view('demo::index');
     })->name($slug);
 }
+
+Route::get('/skelbimai/{listing:slug}', [ListingController::class, 'show'])
+    ->name('listing.show');
