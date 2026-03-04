@@ -1,60 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Skelbimų Portalai
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Sitemap Generation
 
-## About Laravel
+The project includes a config-driven SEO sitemap system located in `app/Modules/Seo/`. Sitemaps are generated as static XML files into `public/sitemaps/` with automatic file splitting, timestamp preservation, and a master index.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Quick Start
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+# Generate everything (all sitemaps, master index, robots.txt, XSL stylesheets)
+php artisan seo:generate-all-sitemaps
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Generate a single source
+php artisan seo:generate-sitemap listings
 
-## Learning Laravel
+# Generate master index or robots.txt independently
+php artisan seo:generate-master-sitemap-index
+php artisan seo:generate-robots-txt
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Sitemaps are automatically regenerated daily at 04:00 via the scheduler (`routes/console.php`).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Output Structure
 
-## Laravel Sponsors
+```
+public/
+├── sitemap-index.xml           ← Master index
+├── sitemap.xsl                 ← XSL stylesheet (generated from template)
+├── sitemap-index.xsl           ← XSL stylesheet for index files
+├── robots.txt                  ← Generated, points to sitemap-index.xml
+└── sitemaps/
+    ├── listings/
+    │   ├── sitemap_1.xml       ← Auto-split at 5,000 URLs per file
+    │   └── sitemap-index.xml   ← Created only when multiple files exist
+    └── pages/
+        └── sitemap_1.xml
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Adding a New Sitemap Source
 
-### Premium Partners
+1. Create a source class implementing `SitemapSource`:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```php
+<?php
 
-## Contributing
+namespace App\Modules\Seo\Sources;
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+use App\Models\Agent;
+use App\Modules\Seo\Contracts\SitemapSource;
 
-## Code of Conduct
+class AgentSource implements SitemapSource
+{
+    public function urls(string $baseUrl): iterable
+    {
+        foreach (Agent::query()->active()->orderBy('id')->lazy(1000) as $agent) {
+            yield [
+                'loc' => $baseUrl . '/agents/' . rawurlencode($agent->slug),
+                'changefreq' => 'weekly',
+                'priority' => '0.6',
+                'lastmod' => $agent->updated_at->toIso8601String(),
+            ];
+        }
+    }
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    public function maxUrlsPerFile(): int
+    {
+        return 5000;
+    }
+}
+```
 
-## Security Vulnerabilities
+2. Register it in `config/sitemap.php`:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```php
+'sources' => [
+    'listings' => ListingSource::class,
+    'pages'    => PageSource::class,
+    'agents'   => AgentSource::class, // ← add this line
+],
+```
 
-## License
+That's it. The generator, master index, and all commands pick it up automatically.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# skelbimuportalai
+### Architecture
+
+```
+app/Modules/Seo/
+├── Contracts/
+│   └── SitemapSource.php          ← Interface: urls() + maxUrlsPerFile()
+├── Sources/
+│   ├── ListingSource.php          ← Listing detail pages
+│   └── PageSource.php             ← Static/theme module pages
+├── SitemapGenerator.php           ← Processes any SitemapSource (splitting, streaming, snapshots)
+├── SitemapWriter.php              ← XML helpers, file snapshot/restore, XSL generation
+├── MasterIndexGenerator.php       ← Builds sitemap-index.xml from config sources
+└── RobotsTxtGenerator.php         ← Generates robots.txt
+
+app/Console/Commands/Seo/
+├── GenerateAllSitemaps.php        ← Orchestrator: runs all sources + master + robots + XSL
+├── GenerateSitemap.php            ← seo:generate-sitemap {key?} — one or all sources
+├── GenerateMasterSitemapIndex.php ← seo:generate-master-sitemap-index
+└── GenerateRobotsTxt.php          ← seo:generate-robots-txt
+
+config/sitemap.php                 ← Source registry + base URL config
+resources/seo/                     ← XSL templates with {{SITE_URL}}, {{SITE_NAME}}, {{YEAR}} placeholders
+```
+
+### Key Design Decisions
+
+- **Timestamp preservation** — if generated file content hasn't changed, the original file modification time is restored. This prevents unnecessary `lastmod` changes in the master index.
+- **Memory efficiency** — sources use `lazy()` / generators to yield URLs one at a time; XML is streamed via `fopen`/`fwrite`.
+- **Auto-splitting** — each source defines `maxUrlsPerFile()`. When exceeded, files are split and a per-source `sitemap-index.xml` is created.
+- **No third-party packages** — the entire system is built with plain Laravel/PHP.
+
+### Configuration
+
+Set `SITEMAP_BASE_URL` in `.env` for production (falls back to `APP_URL`):
+
+```env
+SITEMAP_BASE_URL=https://www.example.com
+```
