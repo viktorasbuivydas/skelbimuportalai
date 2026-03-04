@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\ListingStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -11,6 +13,7 @@ class Listing extends Model
 {
     /** @var list<string> */
     protected $fillable = [
+        'user_id',
         'title',
         'slug',
         'description',
@@ -18,6 +21,7 @@ class Listing extends Model
         'location',
         'image',
         'is_featured',
+        'status',
         'published_at',
     ];
 
@@ -30,7 +34,16 @@ class Listing extends Model
             'price' => 'decimal:2',
             'is_featured' => 'boolean',
             'published_at' => 'datetime',
+            'status' => ListingStatus::class,
         ];
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getRouteKeyName(): string
@@ -69,7 +82,26 @@ class Listing extends Model
      */
     public function scopePublished(Builder $query): Builder
     {
-        return $query->whereNotNull('published_at');
+        return $query->whereNotNull('published_at')
+            ->where('status', ListingStatus::Approved);
+    }
+
+    /**
+     * @param  Builder<Listing>  $query
+     * @return Builder<Listing>
+     */
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', ListingStatus::Approved);
+    }
+
+    /**
+     * @param  Builder<Listing>  $query
+     * @return Builder<Listing>
+     */
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('status', ListingStatus::Pending);
     }
 
     public function getIsNewAttribute(): bool

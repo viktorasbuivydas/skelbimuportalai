@@ -99,13 +99,16 @@ class CompaniesListingSeeder extends Seeder
 
             $data['slug'] = Str::slug($data['title']);
 
-            $listing = Listing::query()->create($data);
+            $listing = Listing::query()->updateOrCreate(
+                ['slug' => $data['slug']],
+                $data,
+            );
 
             foreach ($meta as $key => $value) {
-                $listing->listingMeta()->create([
-                    'meta_key' => $key,
-                    'meta_value' => $value,
-                ]);
+                $listing->listingMeta()->updateOrCreate(
+                    ['meta_key' => $key],
+                    ['meta_value' => $value],
+                );
             }
         }
     }

@@ -34,18 +34,33 @@
             </form>
 
             <div class="hidden items-center gap-1 md:flex">
-                <a href="#" class="rounded p-2 text-teal-200 transition hover:bg-white/10 hover:text-white" aria-label="Mėgstami">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
-                </a>
-                <a href="#" class="rounded p-2 text-teal-200 transition hover:bg-white/10 hover:text-white" aria-label="Pranešimai">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" /></svg>
-                </a>
+                @auth
+                    <a href="{{ route('dashboard') }}" class="rounded p-2 text-teal-200 transition hover:bg-white/10 hover:text-white" aria-label="Valdymas">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="rounded p-2 text-teal-200 transition hover:bg-white/10 hover:text-white" aria-label="Atsijungti">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" /></svg>
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="rounded px-3 py-1.5 text-sm font-medium text-teal-100 transition hover:bg-white/10 hover:text-white">Prisijungti</a>
+                    <a href="{{ route('register') }}" class="rounded px-3 py-1.5 text-sm font-medium text-teal-100 transition hover:bg-white/10 hover:text-white">Registruotis</a>
+                @endauth
             </div>
 
-            <a href="#" class="hidden shrink-0 rounded bg-white px-4 py-1.5 text-sm font-bold text-teal-700 transition hover:bg-teal-50 md:inline-flex md:items-center md:gap-1.5">
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                Įdėti skelbimą
-            </a>
+            @auth
+                <a href="{{ route('dashboard.listings.create') }}" class="hidden shrink-0 rounded bg-white px-4 py-1.5 text-sm font-bold text-teal-700 transition hover:bg-teal-50 md:inline-flex md:items-center md:gap-1.5">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    Įdėti skelbimą
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="hidden shrink-0 rounded bg-white px-4 py-1.5 text-sm font-bold text-teal-700 transition hover:bg-teal-50 md:inline-flex md:items-center md:gap-1.5">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    Įdėti skelbimą
+                </a>
+            @endauth
 
             <button class="inline-flex items-center justify-center rounded p-2 text-teal-200 transition hover:text-white md:hidden" @click="mobileOpen = !mobileOpen" aria-label="Toggle menu">
                 <svg x-show="!mobileOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
@@ -76,8 +91,14 @@
                 <button type="submit" class="w-full rounded bg-teal-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-teal-400">Ieškoti</button>
             </form>
         </div>
-        <div class="border-t border-teal-500 px-4 py-3">
-            <a href="#" class="block w-full rounded bg-white px-4 py-2.5 text-center text-sm font-bold text-teal-700">+ Įdėti skelbimą</a>
+        <div class="border-t border-teal-500 px-4 py-3 space-y-2">
+            @auth
+                <a href="{{ route('dashboard.listings.create') }}" class="block w-full rounded bg-white px-4 py-2.5 text-center text-sm font-bold text-teal-700">+ Įdėti skelbimą</a>
+                <a href="{{ route('dashboard') }}" class="block w-full rounded bg-teal-500 px-4 py-2.5 text-center text-sm font-medium text-white">Valdymas</a>
+            @else
+                <a href="{{ route('login') }}" class="block w-full rounded bg-white px-4 py-2.5 text-center text-sm font-bold text-teal-700">Prisijungti</a>
+                <a href="{{ route('register') }}" class="block w-full rounded bg-teal-500 px-4 py-2.5 text-center text-sm font-medium text-white">Registruotis</a>
+            @endauth
         </div>
     </div>
 </nav>
